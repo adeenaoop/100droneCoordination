@@ -2,12 +2,14 @@ from avoidance import avoid_drones, avoid_obstacles
 import math
 
 class Drone:
-    def __init__(self, x, y):
+    def __init__(self, ID, x, y):
+        self.droneId = ID       # unique ID to identify the drone
         self.position = [x, y]  # position of the drone
         self.velocity = [0, 0]  # velocity with which the drone moves
         self.orientation = 0    # no change in orientation 
         self.state = "cruising" # its just moving in a straightline 
         self.radius = 50        # radius to qualify as a neighbour
+        self.neighbours = []
 
     def update(self, acceleration, dt): # accelaration = (ax, ay), and dt are timesteps
 
@@ -35,12 +37,12 @@ class Drone:
             if euclidean_distance <= self.radius:
                 neighbours.append(drone)
 
-        
+        self.neighbours = neighbours
         return neighbours
     
     def decide(self, neighbours, angles_distance): # returns the acceleration needed to update
-        acceleration1 = avoid_drones(neighbours)
-        acceleration2 = avoid_obstacles(self, angles_distance)
+        acceleration1 = avoid_drones(self, neighbours)
+        acceleration2 = avoid_obstacles(angles_distance)
 
         ax = acceleration1[0] + acceleration2[0]
         ay = acceleration1[1] + acceleration2[1]
