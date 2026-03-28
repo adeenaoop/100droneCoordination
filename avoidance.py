@@ -31,7 +31,7 @@ def avoid_drones(avoiding_drone, neighbours):
 
     return (ax, ay)
 
-def avoid_obstacle(angles_distance):    
+def avoid_obstacles(angles_distance):    
 
     ax, ay = 0, 0       
     force_x = 0
