@@ -1,4 +1,5 @@
 from avoidance import avoid_drones, avoid_obstacles
+from config import MAX_SPEED
 import math
 
 class Drone:
@@ -8,13 +9,19 @@ class Drone:
         self.velocity = [0, 0]  # velocity with which the drone moves
         self.orientation = 0    # no change in orientation 
         self.state = "cruising" # its just moving in a straightline 
-        self.radius = 50        # radius to qualify as a neighbour
+        self.radius = 80        # radius to qualify as a neighbour
         self.neighbours = []
 
     def update(self, acceleration, dt): # accelaration = (ax, ay), and dt are timesteps
 
         self.velocity[0] = self.velocity[0] + (acceleration[0] * dt)    # euler equation: vx = vx + ax * dt
         self.velocity[1] = self.velocity[1] + (acceleration[1] * dt)    # euler equation: vy = vy + ay * dt
+        # clamp speed to MAX_SPEED
+        speed = math.sqrt(self.velocity[0]**2 + self.velocity[1]**2)
+        if speed > MAX_SPEED:
+            self.velocity[0] = (self.velocity[0] / speed) * MAX_SPEED
+            self.velocity[1] = (self.velocity[1] / speed) * MAX_SPEED
+       
         self.position[0] = self.position[0] + (self.velocity[0] * dt)   # euler equation: x = x + vx * dt
         self.position[1] = self.position[1] + (self.velocity[1] * dt)   # euler equation: y = y + vy * dt
         

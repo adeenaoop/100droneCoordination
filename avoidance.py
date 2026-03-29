@@ -1,9 +1,10 @@
 
 import math
+from config import AVOIDANCE_FORCE
 
 def avoid_drones(avoiding_drone, neighbours):
 
-    avoidance_distance = 20
+    avoidance_distance = 60
     x = avoiding_drone.position[0]
     y = avoiding_drone.position[1]
 
@@ -19,11 +20,12 @@ def avoid_drones(avoiding_drone, neighbours):
         if euclidean_distance == 0:
             continue
 
-        if euclidean_distance <= 20:
+        if euclidean_distance <= avoidance_distance:
             # since x_distance and y_distance have not been squared, hence they give us direction as well
 
-            force_x = x_distance/euclidean_distance     # closer the drones greater the repulsive x force
-            force_y = y_distance/euclidean_distance     # closer the drones greater the repulsive y force
+            # also scale the forces by avoidance force so it is strong enough
+            force_x = x_distance/euclidean_distance * 1.85 * AVOIDANCE_FORCE    # closer the drones greater the repulsive x force
+            force_y = y_distance/euclidean_distance * 1.85 * AVOIDANCE_FORCE    # closer the drones greater the repulsive y force
 
             # we need to add the acceleration from all the neighbours to know final acceleration
             ax += force_x              
@@ -40,9 +42,11 @@ def avoid_obstacles(angles_distance):
         if distance is None:
             continue
         
-        if distance < 50:    
-            force_x += -1 * math.cos(angle)/distance    # -1 to move away, cos for the triangle forming with the angle, dividing by distance to normalize
-            force_y += -1 * math.sin(angle)/distance    # explaination same as above we just have sin now because the side of the triangle has changed
+        # also scale the forces by avoidance force to create a strong enough push 
+        # and then 1.5 since obstacles are staticand don't move out of the way themselves
+        if distance < 99:    
+            force_x += -1 * math.cos(angle)/distance * 2.75 * AVOIDANCE_FORCE   # -1 to move away, cos for the triangle forming with the angle, dividing by distance to normalize
+            force_y += -1 * math.sin(angle)/distance * 2.75 * AVOIDANCE_FORCE   # explaination same as above we just have sin now because the side of the triangle has changed
 
     ax, ay = force_x, force_y
 

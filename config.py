@@ -23,8 +23,8 @@ MAX_TICKS      = 3000          # stop simulation after this many ticks (0 = infi
 # ─────────────────────────────────────────────
 WORLD_WIDTH    = WINDOW_WIDTH   # world units == pixels (1:1 mapping)
 WORLD_HEIGHT   = WINDOW_HEIGHT
-BOUNDARY_MARGIN = 60           # soft-wall repulsion starts this far from edge
-BOUNDARY_FORCE  = 8.0          # strength of boundary push-back
+BOUNDARY_MARGIN = 130           # soft-wall repulsion starts this far from edge
+BOUNDARY_FORCE  = 160          # strength of boundary push-back
 
 # ─────────────────────────────────────────────
 # SPATIAL GRID
@@ -50,7 +50,7 @@ RAY_LENGTH     = 100           # maximum ray length (world units)
 # COLLISION AVOIDANCE
 # ─────────────────────────────────────────────
 AVOIDANCE_RADIUS = 20          # personal-space radius triggering avoidance
-AVOIDANCE_FORCE  = 50.0        # repulsion strength between drones
+AVOIDANCE_FORCE  = 52        # repulsion strength between drones
 
 # ─────────────────────────────────────────────
 # OBSTACLES  (list of (x, y, radius) circles)
